@@ -8,8 +8,12 @@
 class Chemash
 {
     unsigned long long generated_hash;
+
     std::vector<unsigned char> padded_bytes;
     std::vector<std::vector<uint32_t>> message_blocks;
+    uint32_t w_message_schedule[64];
+    int32_t a, b, c, d, e, f, g, h;
+
     uint32_t hash_values[8];
     uint32_t round_constants[64];
 
@@ -36,6 +40,13 @@ public:
     void GenerateHash(const std::string& input_string);
     void PadOriginalMessage(const std::string& original_message);
     void ParsePaddedMessage(const std::vector<unsigned char>& padded_bytes);
+    void ExecuteHashComputation();
+    void CalculateFinalGeneratedHash();
+
+    void PrepareMessageSchedule(const int& N);
+    uint32_t RightRotate(uint32_t value, int amount);
+
+    void Compress();
 
     unsigned long long Generated_hash() const;
     unsigned long long& Generated_hash();
