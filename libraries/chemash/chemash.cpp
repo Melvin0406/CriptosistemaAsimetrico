@@ -55,7 +55,7 @@ void Chemash::PadOriginalMessage(const std::string& original_message)
 
     // Append '0' bits until we have 64 bits before nearest 'PADDING_LENGTH' bit string
     int padding_bytes = (PADDING_LENGTH - 64) / 8;
-    while (padded_bytes.size() % 32 != padding_bytes) {
+    while (padded_bytes.size() % 64 != padding_bytes) {
         padded_bytes.push_back(0x00);
     }
 
@@ -72,13 +72,13 @@ void Chemash::ParsePaddedMessage(const std::vector<unsigned char>& bytes)
     message_blocks.clear();
 
     // Calculate number of blocks in padded message
-    int num_blocks = bytes.size() / 32;
+    int num_blocks = bytes.size() / 64;
 
     // Separate padded message into N blocks of M words each
     for (int block = 0; block < num_blocks; block++) {
         std::vector<uint32_t> words(16);
 
-        int block_offset = block * 32;
+        int block_offset = block * 64;
         for (int i = 0; i < 16; i++) {
             words[i] = (bytes[block_offset + i * 4]     << 24) |
                        (bytes[block_offset + i * 4 + 1] << 16) |
@@ -93,7 +93,7 @@ void Chemash::ParsePaddedMessage(const std::vector<unsigned char>& bytes)
 void Chemash::ExecuteHashComputation()
 {
     // Store number of blocks
-    int N = padded_bytes.size() / 32;
+    int N = padded_bytes.size() / 64;
 
     for (int i = 1; i <= N; i++) {
         // Step 1 - Prepare message schedule

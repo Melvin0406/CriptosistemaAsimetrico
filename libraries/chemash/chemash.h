@@ -12,12 +12,12 @@ class Chemash
     std::vector<unsigned char> padded_bytes;
     std::vector<std::vector<uint32_t>> message_blocks;
     uint32_t w_message_schedule[64];
-    int32_t a, b, c, d, e, f, g, h;
+    uint32_t a, b, c, d, e, f, g, h;
 
     uint32_t hash_values[8];
     uint32_t round_constants[64];
 
-    const int PADDING_LENGTH = 256;
+    const int PADDING_LENGTH = 512;
     const int chemo_numbers[8] = {7, 420, 616, 67, 911, 69, 2, 11};
     const int chemo_numbers_64[64] = {
         83, 89, 181, 281, 283, 383, 389, 487,
