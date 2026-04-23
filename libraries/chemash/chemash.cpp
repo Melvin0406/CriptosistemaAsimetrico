@@ -32,6 +32,9 @@ void Chemash::CalculateRoundConstants()
 
 void Chemash::GenerateHash(const std::string& input_string)
 {
+    // Reset hash values for new input
+    CalculateInitialHashValues();
+    
     // First step - Round up size to nearest 'PADDING_LENGTH' bit string
     PadOriginalMessage(input_string);
 

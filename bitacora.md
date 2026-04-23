@@ -39,8 +39,13 @@
   1. Ver si es problema del hash o de la clase signer generando 2 hashes seguidos y viendo si son iguales.
 
 - **Ajuste realizado:**
+  1. Al inicio de GenerateHash() reseteamos los hash_values a sus valores iniciales antes que nada.
+
 - **Explicación:**
+  1. Al imprimir el hash del mensaje, sale diferente usando el mismo mensaje indicando que hay un error en el hash. En su momento hicimos pruebas y sí habían salido iguales los hashes de 2 textos iguales, entonces sospechamos que fue por hacer 2 hashes seguidos con el mismo objeto de Chemash. Después de analizar, vimos que los hash_values no se resetean antes de cada hash.
+
 - **Reflexión:**
+  1. Teníamos la opción de crear un nuevo objeto Chemash en cada firma, pero decidimos no complicarnos y arreglar el bug del hash. Aprendimos que siempre es bueno revisar la integración, pues este es uno de esos bugs que se encuentran hasta que se integran los componentes.
 
 # Etapa 6: Validaciones
 
