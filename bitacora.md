@@ -34,18 +34,23 @@
 
 - **Problema encontrado:**
   1. La firma producida no es igual usando el mismo texto.
+  2. Se nos olvidó aplicar mod N al hash para que todo sea menor que N.
 
 - **Desición tomada:**
   1. Ver si es problema del hash o de la clase signer generando 2 hashes seguidos y viendo si son iguales.
+  2. Simplemente aplicar mod N antes de empezar a elevar el hash en la firma.
 
 - **Ajuste realizado:**
   1. Al inicio de GenerateHash() reseteamos los hash_values a sus valores iniciales antes que nada.
+  2. Agregar a la función de sign hash = hash % n; justo después de obtener el hash.
 
 - **Explicación:**
   1. Al imprimir el hash del mensaje, sale diferente usando el mismo mensaje indicando que hay un error en el hash. En su momento hicimos pruebas y sí habían salido iguales los hashes de 2 textos iguales, entonces sospechamos que fue por hacer 2 hashes seguidos con el mismo objeto de Chemash. Después de analizar, vimos que los hash_values no se resetean antes de cada hash.
+  2. Aplicamos el proceso de encriptación y desencriptación RSA con llaves de juguete para asegurarnos que las matemáticas estuvieran correctas. Se supone que al hacerlo, el hash del mensaje elevado a la e (la llave pública) y luego a la d (llave privada) mod n, debía ser igual al hash del mensaje inicial (porque e y d son inversos multiplicativos). Ahí nos dimos cuenta que el hash era mucho más grande que n, entonces obviamente no eran iguales. Y pues de ahí recordamos que el hash también se tiene que reducir mod n.
 
 - **Reflexión:**
   1. Teníamos la opción de crear un nuevo objeto Chemash en cada firma, pero decidimos no complicarnos y arreglar el bug del hash. Aprendimos que siempre es bueno revisar la integración, pues este es uno de esos bugs que se encuentran hasta que se integran los componentes.
+  2. Este fue un error de descuido simplemente. Al pensar que el hash y n son de 64 bits y que 64 bits era lo máximo que íbamos a tener, no pensamos en que el hash generado podía ser mayor al n calculado. Al probar con n's pequeñas, el bug quedó expuesto bastante rápido.
 
 # Etapa 6: Validaciones
 
