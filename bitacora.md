@@ -33,7 +33,11 @@
 # Etapa 5: Generación de firma
 
 - **Problema encontrado:**
+  1. La firma producida no es igual usando el mismo texto.
+
 - **Desición tomada:**
+  1. Ver si es problema del hash o de la clase signer generando 2 hashes seguidos y viendo si son iguales.
+
 - **Ajuste realizado:**
 - **Explicación:**
 - **Reflexión:**
