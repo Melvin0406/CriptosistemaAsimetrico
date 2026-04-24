@@ -14,16 +14,5 @@ int main() {
     uint64_t firma = signer.sign("Un mayhemsito? De chill", e, n);
     std::cout << "Firma: " << firma << std::endl;
 
-    // Desencriptación (verificar la firma)
-    // Hacemos la operación pero con d en lugar de e
-    uint64_t verificacion = 1;
-    for (uint32_t i = 0; i < d; i++)
-    {
-        verificacion = (verificacion * firma) % n;
-    }
-    std::cout << "Verificacion: " << verificacion << std::endl;
-
-    // Si todo sale bien, la verificación debería ser igual al hash del mensaje original
-
     return 0;
 }

@@ -12,11 +12,7 @@ uint64_t Signer::sign(std::string message, uint64_t d, uint64_t n)
     hash = hash % n; // Ensure hash is within mod n
 
     // Sign the hash like RSA: signature = hash^d mod n
-    uint64_t signature = 1;
-    for (uint64_t i = 0; i < d; i++)
-    {
-        signature = (signature * hash) % n;
-    }
+    uint64_t signature = math_helper.ModExp(hash, d, n); // We use modular exponentiation for efficiency
 
     return signature;
 }

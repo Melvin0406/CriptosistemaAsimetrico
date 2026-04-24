@@ -1,11 +1,16 @@
-#include <iostream>
+#ifndef SIGNER_H
+#define SIGNER_H
+
+#include <cstdint>
 #include <string>
 #include "chemash.h"
+#include "math.h"
 
 class Signer
 {
     private:
     Chemash chehash_generator;
+    Math math_helper;
 
     public:
     Signer();
@@ -13,3 +18,5 @@ class Signer
 
     uint64_t sign(std::string message, uint64_t d, uint64_t n);
 };
+
+#endif
