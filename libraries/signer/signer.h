@@ -1,6 +1,7 @@
 #ifndef SIGNER_H
 #define SIGNER_H
 
+#include <iostream>
 #include <cstdint>
 #include <string>
 #include "chemash.h"

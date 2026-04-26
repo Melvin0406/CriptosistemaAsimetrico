@@ -1,31 +1,26 @@
 #include <iostream>
 #include <cstdint>
+#include "libraries/keyGenerator/keyGenerator.h"
+#include "libraries/signer/signer.h"
 #include "libraries/math/math.h"
 
-uint64_t n_global;
-uint64_t e_global;
-uint64_t d_global;
+// Vamos a probar si las llaves se generan bien. 
+int main()
+{
+    KeyPair keys = KeyGenerator::GenerateKeys();
 
-void generarLlaves() {
-    uint64_t e = 65537; // Exponente público comúnmente usado
+    std::cout << "n: " << keys.n << std::endl;
+    std::cout << "e: " << keys.e << std::endl;
+    std::cout << "d: " << keys.d << std::endl;
 
-    while (true) {
-        uint64_t p = Math::GeneratePrime();
-        uint64_t q = Math::GeneratePrime();
+    // Probamos la firma simulando la encriptación de RSA
+    Signer signer;
+    uint64_t firma = signer.sign("Adomination", keys.d, keys.n);
+    std::cout << "Firma: " << firma << std::endl;
 
-        if (p == q) continue;
+    // Ahora voy a desencriptar y debería de coincidir con el hash original
+    uint64_t desencriptado = Math::ModExp(firma, keys.e, keys.n);
+    std::cout << "Desencriptado: " << desencriptado << std::endl;
 
-        uint64_t n = p * q;
-        uint64_t phi = (p - 1) * (q - 1);
-
-        if (Math::GCD(e, phi) != 1) continue; // Asegurarse de que e y phi sean coprimos
-
-        uint64_t d = Math::ModInverse(e, phi);
-
-        n_global = n;
-        e_global = e;
-        d_global = d;
-
-        break;
-    }
+    return 0;
 }
