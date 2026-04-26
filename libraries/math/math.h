@@ -6,7 +6,12 @@
 class Math
 {
     public:
-    uint64_t ModExp(uint64_t base, uint64_t exp, uint64_t mod);
+    static uint64_t ModMul(uint64_t a, uint64_t b, uint64_t mod);
+    static uint64_t ModExp(uint64_t base, uint64_t exp, uint64_t mod);
+    static bool IsPrime(uint64_t n);
+    static uint32_t GeneratePrime();
+    static uint64_t GCD(uint64_t a, uint64_t b);
+    static int64_t ModInverse(int64_t e, int64_t phi);
 };
 
 #endif
