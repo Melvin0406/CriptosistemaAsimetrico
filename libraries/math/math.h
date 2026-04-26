@@ -11,7 +11,7 @@ class Math
     static bool IsPrime(uint64_t n);
     static uint32_t GeneratePrime();
     static uint64_t GCD(uint64_t a, uint64_t b);
-    static int64_t ModInverse(int64_t e, int64_t phi);
+    static uint64_t ModInverse(uint64_t e, uint64_t phi);
 };
 
 #endif

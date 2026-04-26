@@ -18,6 +18,6 @@ KeyPair KeyGenerator::GenerateKeys()
 
         uint64_t d = Math::ModInverse(e, phi);
 
-        return {n, e, (uint64_t)d};
+        return {n, e, d};
     }
 }

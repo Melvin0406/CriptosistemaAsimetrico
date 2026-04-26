@@ -80,15 +80,15 @@ uint64_t Math::GCD(uint64_t a, uint64_t b)
 }
 
 // Euclides extendido para encontrar el inverso multiplicativo
-int64_t Math::ModInverse(int64_t e, int64_t phi)
+uint64_t Math::ModInverse(uint64_t e, uint64_t phi)
 {
-    int64_t t = 0, new_t = 1;
-    int64_t r = phi, new_r = e;
+    __int128 t = 0, new_t = 1;
+    __int128 r = phi, new_r = e;
 
     while (new_r != 0) {
-        int64_t q = r / new_r;
+        __int128 q = r / new_r;
 
-        int64_t temp = new_t;
+        __int128 temp = new_t;
         new_t = t - q * new_t;
         t = temp;
 
@@ -97,8 +97,8 @@ int64_t Math::ModInverse(int64_t e, int64_t phi)
         r = temp;
     }
 
-    if (r > 1) return -1; // No existe inverso
+    if (r > 1) return 0; // No existe inverso
     if (t < 0) t += phi;
 
-    return t;
+    return (uint64_t)t;
 }

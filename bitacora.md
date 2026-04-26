@@ -60,7 +60,21 @@
 # Etapa 6: Validaciones
 
 - **Problema encontrado:**
+
+1. Al verificar el flujo normal y ver si se podía encriptar con la llave privada y desencriptar con la pública, nos dimos cuenta que la firma y la verificación no coincidían aunque el mensaje y las llaves si eran correctas.
+
 - **Desición tomada:**
+
+1. Agregamos prints de debug para comparar el hash que usa el Signer y el hash que usa el Verifier, con la idea de encontrar en qué punto ocurre el problema.
+
 - **Ajuste realizado:**
+
+1. Cambiar los parámetros de la función ModInverse de int64_t a uint64_t, usando \_\_int128 internamente para los valores intermedios del algoritmo extendido de Euclides.
+
 - **Explicación:**
+
+1. La firma no era válida y no era porque el hash fuera diferente. Imprimimos los demás valores y no se miraban mal. Después de preguntarle a una IA, entendimos el error. uint64_t e int64_t son diferentes en que int64_t guarda un bit para el signo, entonces su valor máximo positivo es de 2^63. Declaramos phi como uint64_t porque los primos de n son de hasta 32 bits, por lo que n y phi pueden superar los 2^63. El problema era que en la función ModInverse los parámetros los pusimos como int64_t, entonces cuando pasabamos phi como parámetro, que tenía más de 63 bits, se interpretaba como negativo y pues hacía que las matemáticas fallaran. Al fallar el cálculo de d, la firma no podía verificarse.
+
 - **Reflexión:**
+
+1. Este overflow ha sido el bug más difícil de detectar hasta el momento, porque el programa no lanza ningún error, simplemente produce un resultado incorrecto. Aprendimos que al trabajar con operaciones matemáticas que requieren precisión en bits en el tema de overflow, hay que ser cuidadosos con los tipos en cada operación y con posibles overflows entre medio.
