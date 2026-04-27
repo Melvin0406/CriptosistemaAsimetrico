@@ -15,11 +15,11 @@
 
 # Etapa 3: Hash
 
-- **Problema encontrado:**
-- **Desición tomada:**
-- **Ajuste realizado:**
-- **Explicación:**
-- **Reflexión:**
+- **Problema encontrado:** La función SHA-256 debía ser modificada internamente para poder acomodarse a nuestra versión simplificada del sistema de firma electrónica.
+- **Desición tomada:** Se modifica la salida original de 256 bits para mostrar la salida correcta de 64 bits.
+- **Ajuste realizado:** Se toman las últimas 2 partes de 32 bits cada uno y se concatenan para formar la nueva salida.
+- **Explicación:** Se decidió tomar esta solución ya que modificar internamente la generación del valor hash podría comprometer la seguridad y entropía de este mismo. La razón que hace a SHA-256 muy efectivo es precisamente la gran cantidad de modificaciones que se le hacen a sus datos por rondas; al reducir la complejidad del cálculo principal se comprometería la eficiencia de la función.
+- **Reflexión:** Esto nos enseñó a tomar decisiones que pongan como prioridad la robustez y la seguridad del sistema, haber tomado el otro acercamiento habría comprometido seriamente un sistema de la vida real.
 
 # Etapa 4: Generación de llaves
 
