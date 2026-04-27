@@ -73,7 +73,7 @@
 
 - **Explicación:**
 
-1. La firma no era válida y no era porque el hash fuera diferente. Imprimimos los demás valores y no se miraban mal. Después de preguntarle a una IA, entendimos el error. uint64_t e int64_t son diferentes en que int64_t guarda un bit para el signo, entonces su valor máximo positivo es de 2^63. Declaramos phi como uint64_t porque los primos de n son de hasta 32 bits, por lo que n y phi pueden superar los 2^63. El problema era que en la función ModInverse los parámetros los pusimos como int64_t, entonces cuando pasabamos phi como parámetro, que tenía más de 63 bits, se interpretaba como negativo y pues hacía que las matemáticas fallaran. Al fallar el cálculo de d, la firma no podía verificarse.
+1. La firma no era válida y no era porque el hash fuera diferente. Imprimimos los demás valores y no se miraban mal. Después de preguntarle a una IA, entendimos el error. uint64_t e int64_t son diferentes en que int64_t guarda un bit para el signo, entonces su valor máximo positivo es de 2^63. Declaramos phi como uint64_t porque los primos de n son de hasta 32 bits, por lo que n y phi pueden superar los 2^63. El problema era que en la función ModInverse los parámetros los pusimos como int64_t, entonces cuando pasabamos phi como parámetro, que tenía más de 63 bits, se interpretaba como negativo y pues hacía que las matemáticas fallaran. Al fallar el cálculo de d, la firma no podía verificarse. En los valores del algoritmo de Euclides no les pusimos uint64_t, porque ahí sí pueden ser negativos, entonces usamos \_\_int128.
 
 - **Reflexión:**
 
