@@ -16,6 +16,7 @@ KeyPair KeyGenerator::GenerateKeys()
 
         if (Math::GCD(e, phi) != 1) continue; // Asegurarse de que e y phi sean coprimos
 
+        // Calculamos el inverso multiplicativo, que es parte de la llave privada
         uint64_t d = Math::ModInverse(e, phi);
 
         return {n, e, d};
