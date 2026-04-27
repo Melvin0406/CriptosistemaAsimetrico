@@ -27,10 +27,12 @@ uint64_t Math::ModExp(uint64_t base, uint64_t exp, uint64_t mod)
 bool Math::IsPrime(uint64_t n)
 {
     if (n < 2) return false;
+    // Checar si es divisible por primos chiquitos
     for (uint64_t p : {2, 3, 5, 7, 11}) {
         if (n % p == 0) return n == p;
     }
 
+    
     uint64_t d = n - 1;
     int s = 0;
     while ((d & 1) == 0) {

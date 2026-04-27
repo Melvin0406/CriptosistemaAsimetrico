@@ -6,8 +6,8 @@ KeyPair KeyGenerator::GenerateKeys()
     uint64_t e = 65537; // Exponente público comúnmente usado
 
     while (true) {
-        uint64_t p = Math::GeneratePrime();
-        uint64_t q = Math::GeneratePrime();
+        uint32_t p = Math::GeneratePrime();
+        uint32_t q = Math::GeneratePrime();
 
         if (p == q) continue;
 
