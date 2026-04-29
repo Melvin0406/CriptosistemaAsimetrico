@@ -151,7 +151,7 @@ void Chemash::PrepareMessageSchedule(const int& N)
 
     // Expand to 64 words
     for (int i = 16; i < 64; i++) {
-        uint32_t s0 = RightRotate(w_message_schedule[i - 15], 3)  ^
+        uint32_t s0 = RightRotate(w_message_schedule[i - 15], 3) ^
                       RightRotate(w_message_schedule[i - 15], 13) ^
                       (w_message_schedule[i - 15] >> 11);
 

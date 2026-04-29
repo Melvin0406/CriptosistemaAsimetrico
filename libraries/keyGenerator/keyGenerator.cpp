@@ -11,6 +11,7 @@ KeyPair KeyGenerator::GenerateKeys()
 
         if (p == q) continue;
 
+        // Calculamos n y phi (coprimos de n)
         uint64_t n = p * q;
         uint64_t phi = (p - 1) * (q - 1);
 
