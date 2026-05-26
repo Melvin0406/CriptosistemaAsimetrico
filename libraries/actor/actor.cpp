@@ -79,7 +79,7 @@ void Actor::generateMessage(std::string message, std::string receiverName, Publi
         {"n", keys.n}
     };
 
-    std::ofstream file("message.json");
+    std::ofstream file("jsons/message.json");
     file << package.dump(4);
     file.close();
 }
@@ -87,7 +87,7 @@ void Actor::generateMessage(std::string message, std::string receiverName, Publi
 void Actor::readMessage(uint64_t modifiedPrivateKey = 0)
 {
     // Open and parse the message file
-    std::ifstream file("message.json");
+    std::ifstream file("jsons/message.json");
     nlohmann::json package;
     file >> package;
     file.close();
@@ -106,6 +106,7 @@ void Actor::readMessage(uint64_t modifiedPrivateKey = 0)
     uint64_t encrypted_message;
     uint64_t signature;
 
+    // Catch error types
     try
     {
         encrypted_session_key = package["encrypted_session_key"];
