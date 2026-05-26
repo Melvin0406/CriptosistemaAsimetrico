@@ -17,10 +17,10 @@
 # Etapa 3: Integración dentro del main, compilado y pruebas
 
 - **Problema encontrado:** Durante el compilado inicial, batallamos al enlazar los archivos con las librerías necesarias.
-- **Desición tomada:** 
-- **Ajuste realizado:** 
-- **Explicación:** 
-- **Reflexión:** 
+- **Desición tomada:** Investigar cómo hacerle para que el compilador busque los includes desde la raíz.
+- **Ajuste realizado:** Agregar -I al comando de compilación.
+- **Explicación:** El problema era que al compilar no se encontraban los headers porque los #include usaban paths relativos desde la raíz del proyecto, pero el compilador los buscaba desde el archivo donde está el header. Entonces al agregar el -I al comando, le estamos diciendo al compilador que busque los includes desde la raíz. Ya con eso funcionó.
+- **Reflexión:** Esto es algo que ya sabíamos de los primeros semestres de programación, pero en el momento no nos fijamos que no habíamos incluido el -I en el comando y no se nos ocurrió al instante checar.
 
 # Etapa 4: Subido a repositorio
 
@@ -33,15 +33,15 @@
 # Etapa 5: Implementación de casos de validación
 
 - **Problema encontrado:** Algunos casos requerían modificaciones al flujo de comunicación entre los actores.
-- **Desición tomada:** 
-- **Ajuste realizado:** 
-- **Explicación:** 
-- **Reflexión:** 
+- **Desición tomada:** Pasarle a la función de recibir mensaje una llave privada modificada.
+- **Ajuste realizado:** A la función readMessage() ahora le pasamos un parámetro opcional modifiedPrivateKey que si viene en 0 usa la llave real, y si viene con otro valor usa esa llave para el descifrado.
+- **Explicación:** Para simular el caso 6 de descifrado con llave privada incorrecta tuvimos modificar el código como se explicó antes. Esto para permitir la simulación de que un tercero con una llave incorrecta intenta descifrar el mensaje sin crear un actor completamente nuevo.
+- **Reflexión:** Nosotros tomamos el camino de agregar un parámetro a una función que ya teníamos, aunque también pudimos crear otro Receiver. Al final las 2 formas funcionaban.
 
 # Etapa 6: Adaptación código para prueba de archivos JSON pregenerados
 
-- **Problema encontrado:** 
-- **Desición tomada:** 
-- **Ajuste realizado:** 
-- **Explicación:** 
-- **Reflexión:** 
+- **Problema encontrado:**
+- **Desición tomada:**
+- **Ajuste realizado:**
+- **Explicación:**
+- **Reflexión:**
