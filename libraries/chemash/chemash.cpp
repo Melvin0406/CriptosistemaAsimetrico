@@ -58,7 +58,7 @@ void Chemash::PadOriginalMessage(const std::string& original_message)
 
     // Append '0' bits until we have 64 bits before nearest 'PADDING_LENGTH' bit string
     int padding_bytes = (PADDING_LENGTH - 64) / 8;
-    while (padded_bytes.size() % 64 != padding_bytes) {
+    while (padded_bytes.size() % 64 != (size_t)padding_bytes) {
         padded_bytes.push_back(0x00);
     }
 

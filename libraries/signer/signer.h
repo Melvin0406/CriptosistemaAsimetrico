@@ -4,8 +4,8 @@
 #include <iostream>
 #include <cstdint>
 #include <string>
-#include "chemash.h"
-#include "math.h"
+#include "libraries/chemash/chemash.h"
+#include "libraries/math/math.h"
 
 class Signer
 {

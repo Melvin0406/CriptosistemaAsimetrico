@@ -1,5 +1,5 @@
 #include "keyGenerator.h"
-#include "math.h"
+#include "libraries/math/math.h"
 
 KeyPair KeyGenerator::GenerateKeys()
 {
