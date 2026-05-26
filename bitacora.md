@@ -23,11 +23,11 @@
 
 # Etapa 4: Generación de llaves
 
-- **Problema encontrado:**
-- **Desición tomada:**
-- **Ajuste realizado:**
-- **Explicación:**
-- **Reflexión:**
+- **Problema encontrado:** Haciamos multiplicaciones modulares de p y q que se podrian pasar de 64 bits, lo maximo de n, causando un overflow.
+- **Desición tomada:** Implementar una funcion que multiplica de manera segura grandes cantidades.
+- **Ajuste realizado:** Se creo la función ModMul, que convierte los operandos a 128 bits antes de multiplicarlos, y luego aplica el modulo. Ademas se reemplazaron las multiplicaciones directas dentro de funciones críticas como ModExp y IsPrime por llamadas a ModMul.
+- **Explicación:** En c++, si multiplicas dos numeros de 64 bits, el resultado se guarda en 64 bits, hay casos en que causa un overflow antes de aplicar el modulo, lo que rompe las propiedades matematicas que se necesitan en RSA, usando esta funcion, aseguramos que el resultado de la multiplicacion tenga suficiente espacio antes de aplicar el modulo, garantizando que funciones como ModExp y el test de primalidad funcionen correctamente.
+- **Reflexión:** Pudimos ver que debe el codigo debe ser matematicamente correcto a nivel de bits. Los errores por overflow son especialmente peligrosos porque no generan fallos visibles, pero invalidan completamente los resultados. 
 
 # Etapa 5: Generación de firma
 
