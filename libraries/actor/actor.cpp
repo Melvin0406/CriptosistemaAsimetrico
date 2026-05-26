@@ -52,11 +52,16 @@ void Actor::generateMessage(std::string message, std::string receiverName, Publi
     // Generate session key
     uint64_t sessionKey = generateSessionKey(receiverPublicKey);
 
+    // padding: fill until message length is a multiple of 16
+    std::string padded = message;
+    size_t pad_len = 16 - (message.size() % 16);
+    padded += std::string(pad_len, (char)pad_len);
+
     // Encrypt message byte by byte with XOR, cycling through the 8 bytes of the session key
     std::ostringstream hex_stream;
-    for (size_t i = 0; i < message.size(); i++) {
+    for (size_t i = 0; i < padded.size(); i++) {
         uint8_t key_byte = (sessionKey >> ((i % 8) * 8)) & 0xFF;
-        uint8_t enc_byte = (uint8_t)message[i] ^ key_byte;
+        uint8_t enc_byte = (uint8_t)padded[i] ^ key_byte;
         hex_stream << std::hex << std::setw(2) << std::setfill('0') << (int)enc_byte;
     }
     std::string encrypted_message = hex_stream.str();
@@ -141,6 +146,18 @@ void Actor::readMessage(uint64_t modifiedPrivateKey = 0)
             uint8_t enc_byte = (uint8_t)std::stoi(encrypted_message_hex.substr(i, 2), nullptr, 16);
             uint8_t key_byte = (decrypted_session_key >> (((i / 2) % 8) * 8)) & 0xFF;
             decoded += (char)(enc_byte ^ key_byte);
+        }
+        // Get rid of padding, verifying all padding bytes are equal
+        if (!decoded.empty()) {
+            size_t pad = (uint8_t)decoded.back();
+            if (pad >= 1 && pad <= 16 && pad <= decoded.size()) {
+                bool valid_padding = true;
+                for (size_t j = decoded.size() - pad; j < decoded.size(); j++) {
+                    if ((uint8_t)decoded[j] != pad) { valid_padding = false; break; }
+                }
+                if (valid_padding)
+                    decoded = decoded.substr(0, decoded.size() - pad);
+            }
         }
     } catch (...) {
         std::cout << "[ERROR] JSON mal formado: encrypted_message no es un hex valido." << std::endl;
