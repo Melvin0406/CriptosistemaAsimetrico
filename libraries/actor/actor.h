@@ -19,7 +19,7 @@ class Actor
     Math math_helper;
     Chemash chehash_generator;
 
-    uint64_t generateSessionKey() const;
+    uint64_t generateSessionKey(PublicKeyPair receiverPublicKey) const;
 
 public:
     Actor(std::string name);
@@ -29,7 +29,7 @@ public:
     std::string getName() const;
 
     void generateMessage(std::string message, std::string receiverName, PublicKeyPair receiverPublicKey);
-    void readMessage();
+    void readMessage(uint64_t modifiedPrivateKey);
 
 };
 

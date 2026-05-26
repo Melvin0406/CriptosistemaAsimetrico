@@ -1,0 +1,12 @@
+{
+    "encrypted_message": 29881555946197614,
+    "encrypted_session_key": 10016998822294488416,
+    "hash_algorithm": "Chemash",
+    "receiver": "Melvin",
+    "sender": "Chemo",
+    "sender_public_key": {
+        "e": 65537,
+        "n": 9760987985187190751
+    },
+    "signature": 7529316929769298480
+}
