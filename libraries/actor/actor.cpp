@@ -3,6 +3,8 @@
 #include <random>
 #include <cstdint>
 #include <algorithm>
+#include <sstream>
+#include <iomanip>
 #include "libraries/json.hpp"
 #include "libraries/signer/signer.h"
 #include "libraries/verifier/verifier.h"
@@ -41,14 +43,8 @@ uint64_t Actor::generateSessionKey(PublicKeyPair receiverPublicKey) const
 
 void Actor::generateMessage(std::string message, std::string receiverName, PublicKeyPair receiverPublicKey)
 {
-    // Convert message to number to use with ModExp
-    uint64_t messageValue = 0;
-    for (char c : message) {
-        messageValue = messageValue * 256 + (uint64_t)c;
-    }
-
-    // Generate hash of the message using Chemash
-    chehash_generator.GenerateHash(std::to_string(messageValue));
+    // Generate hash of the original message string using Chemash
+    chehash_generator.GenerateHash(message);
     uint64_t hash = chehash_generator.Generated_hash();
 
     hash = hash % keys.n; // Ensure hash is within mod n
@@ -56,8 +52,14 @@ void Actor::generateMessage(std::string message, std::string receiverName, Publi
     // Generate session key
     uint64_t sessionKey = generateSessionKey(receiverPublicKey);
 
-    // Encrypt the message with XOR (replacing AES), using the session key
-    uint64_t encrypted_message = messageValue ^ sessionKey;
+    // Encrypt message byte by byte with XOR, cycling through the 8 bytes of the session key
+    std::ostringstream hex_stream;
+    for (size_t i = 0; i < message.size(); i++) {
+        uint8_t key_byte = (sessionKey >> ((i % 8) * 8)) & 0xFF;
+        uint8_t enc_byte = (uint8_t)message[i] ^ key_byte;
+        hex_stream << std::hex << std::setw(2) << std::setfill('0') << (int)enc_byte;
+    }
+    std::string encrypted_message = hex_stream.str();
 
     // Encrypt the session key
     uint64_t encrypted_session_key = math_helper.ModExp(sessionKey, receiverPublicKey.e, receiverPublicKey.n);
@@ -103,14 +105,14 @@ void Actor::readMessage(uint64_t modifiedPrivateKey = 0)
     }
 
     uint64_t encrypted_session_key;
-    uint64_t encrypted_message;
+    std::string encrypted_message_hex;
     uint64_t signature;
 
     // Catch error types
     try
     {
         encrypted_session_key = package["encrypted_session_key"];
-        encrypted_message = package["encrypted_message"];
+        encrypted_message_hex = package["encrypted_message"].get<std::string>();
         signature = package["signature"];
     }
     catch (const nlohmann::json::exception& e)
@@ -132,15 +134,17 @@ void Actor::readMessage(uint64_t modifiedPrivateKey = 0)
     else
         decrypted_session_key = math_helper.ModExp(encrypted_session_key, keys.d, keys.n);
 
-    // Decrypt the message
-    uint64_t decrypted_message = encrypted_message ^ decrypted_session_key;
-
-    // Decode the message
+    // Decrypt message byte by byte, cycling through the 8 bytes of the session key
     std::string decoded = "";
-    uint64_t temp = decrypted_message;
-    while (temp > 0) {
-        decoded = (char)(temp % 256) + decoded;
-        temp /= 256;
+    try {
+        for (size_t i = 0; i + 1 < encrypted_message_hex.size(); i += 2) {
+            uint8_t enc_byte = (uint8_t)std::stoi(encrypted_message_hex.substr(i, 2), nullptr, 16);
+            uint8_t key_byte = (decrypted_session_key >> (((i / 2) % 8) * 8)) & 0xFF;
+            decoded += (char)(enc_byte ^ key_byte);
+        }
+    } catch (...) {
+        std::cout << "[ERROR] JSON mal formado: encrypted_message no es un hex valido." << std::endl;
+        return;
     }
 
     // Verify signature
@@ -150,7 +154,7 @@ void Actor::readMessage(uint64_t modifiedPrivateKey = 0)
 
     // Validate message
     // Recompute the hash of the decrypted message
-    chehash_generator.GenerateHash(std::to_string(decrypted_message));
+    chehash_generator.GenerateHash(decoded);
     uint64_t recomputed_hash = chehash_generator.Generated_hash();
     recomputed_hash = recomputed_hash % sender_n;
 

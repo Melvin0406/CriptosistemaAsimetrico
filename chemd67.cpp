@@ -12,7 +12,7 @@ int main()
 
     // CASO 1 - Mensaje valido enviado del emisor al receptor
     std::cout << "\n\nCASO 1 - Mensaje valido enviado del emisor al receptor\n";
-    SenderActor.generateMessage("Shrek", ReceiverActor.getName(), ReceiverActor.getPublicKey());
+    SenderActor.generateMessage("Adomination", ReceiverActor.getName(), ReceiverActor.getPublicKey());
     ReceiverActor.readMessage(0);
     std::cout << "\n\n-------------------------------------------------------------------------------------\n";
 
@@ -33,8 +33,10 @@ int main()
     fileIn3 >> package3;
     fileIn3.close();
 
-    // Modificar manualmente el mensaje
-    package3["encrypted_message"] = package3["encrypted_message"].get<uint64_t>() + 1;
+    // Modificar manualmente el mensaje (cambiar primer caracter del hex)
+    std::string em3 = package3["encrypted_message"].get<std::string>();
+    if (!em3.empty()) em3[0] = (em3[0] == 'f') ? '0' : em3[0] + 1;
+    package3["encrypted_message"] = em3;
 
     std::ofstream fileOut3("jsons/message.json");
     fileOut3 << package3.dump(4);
