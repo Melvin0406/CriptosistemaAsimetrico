@@ -12,9 +12,10 @@ int main()
     // Generamos las llaves primero
     KeyPair keys = KeyGenerator::GenerateKeys();
 
-    std::cout << "n: " << keys.n << std::endl;
-    std::cout << "e: " << keys.e << std::endl;
-    std::cout << "d: " << keys.d << std::endl;
+    // n aparece en ambas porque es público.
+    // Lo que hace segura a RSA es que calcular d a partir de n y e es inviable porque requeriría factorizar n
+    std::cout << "Llave pública que se puede compartir (n, e): (" << keys.n << ", " << keys.e << ")" << std::endl;
+    std::cout << "Llave privada que debe mantenerse en secreto (n, d): (" << keys.n << ", " << keys.d << ")" << std::endl;
 
     // Caso 1: Mensaje normal
     std::cout << "\nCASO 1: MENSAJE NORMAL" << std::endl;
