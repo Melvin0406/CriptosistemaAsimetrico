@@ -48,8 +48,8 @@
 
 ## Etapa 7: Adaptación código para prueba de archivos JSON pregenerados
 
-- **Problema encontrado:**
-- **Desición tomada:**
-- **Ajuste realizado:**
-- **Explicación:**
-- **Reflexión:**
+- **Problema encontrado:** No entendíamos qué era lo que los requisitos solicitaban exactamente.
+- **Desición tomada:** Se envió un correo a la profesora para entender qué era lo que necesitaba que realizáramos.
+- **Ajuste realizado:** Una vez recibimos una respuesta, nos comentó que se requería mostrar evidencias de los archivos JSON tanto en la bitácora como en la documentación. De igual manera, durante la explicación en video se mostraría el uso de dichos archivos, y estos se subirían junto con el código en la entrega.
+- **Explicación:** Se decidió comunicar directamente a la docente, ya que era la única persona que podía aclarar esta duda con total certeza, en vez de arriesgarnos a obtener una interpretación incorrecta por parte de otro equipo o de un agente de inteligencia artificial y perder puntos en el proceso.
+- **Reflexión:** A pesar de ser una solución bastante sencilla y directa, muchos equipos optan por utilizar otros métodos en lugar de comunicarse con el profesor, ya sea por falta de tiempo o para evitar tiempos de respuesta largos. Como equipo, consideramos que esta era la mejor opción y resultó útil, ya que obtuvimos la claridad necesaria para terminar la asignación.

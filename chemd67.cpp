@@ -13,14 +13,14 @@ int main()
     // CASO 1 - Mensaje valido enviado del emisor al receptor
     std::cout << "\n\nCASO 1 - Mensaje valido enviado del emisor al receptor\n";
     SenderActor.generateMessage("Adomination", ReceiverActor.getName(), ReceiverActor.getPublicKey());
-    ReceiverActor.readMessage(0);
+    ReceiverActor.readMessage(0, "");
     std::cout << "\n\n-------------------------------------------------------------------------------------\n";
 
 
     // CASO 2 - Mensaje vacio
     std::cout << "\n\nCASO 2 - Mensaje vacio\n";
     SenderActor.generateMessage("", ReceiverActor.getName(), ReceiverActor.getPublicKey());
-    ReceiverActor.readMessage(0);
+    ReceiverActor.readMessage(0, "");
     std::cout << "\n\n-------------------------------------------------------------------------------------\n";
 
 
@@ -42,7 +42,7 @@ int main()
     fileOut3 << package3.dump(4);
     fileOut3.close();
 
-    ReceiverActor.readMessage(0);
+    ReceiverActor.readMessage(0, "");
     std::cout << "\n\n-------------------------------------------------------------------------------------\n";
 
 
@@ -62,7 +62,7 @@ int main()
     fileOut4 << package4.dump(4);
     fileOut4.close();
 
-    ReceiverActor.readMessage(0);
+    ReceiverActor.readMessage(0, "");
     std::cout << "\n\n-------------------------------------------------------------------------------------\n";
 
 
@@ -75,7 +75,7 @@ int main()
     fileIn5 >> package5;
     fileIn5.close();
 
-    // Modificar manualmente la firma publica
+    // Modificar manualmente la llave publica
     package5["sender_public_key"]["e"] = 17;
     package5["sender_public_key"]["n"] = 9999999937;
 
@@ -83,14 +83,14 @@ int main()
     fileOut5 << package5.dump(4);
     fileOut5.close();
 
-    ReceiverActor.readMessage(0);
+    ReceiverActor.readMessage(0, "");
     std::cout << "\n\n-------------------------------------------------------------------------------------\n";
 
 
     // CASO 6 - Intento de descifrado con la llave privada de otro usuario
     std::cout << "\n\nCASO 6 - Intento de descifrado con la llave privada de otro usuario\n";
     SenderActor.generateMessage("Iiiii", ReceiverActor.getName(), ReceiverActor.getPublicKey());
-    ReceiverActor.readMessage(8);
+    ReceiverActor.readMessage(8, "");
     std::cout << "\n\n-------------------------------------------------------------------------------------\n";
 
 
@@ -110,7 +110,7 @@ int main()
     fileOut7 << package7.dump(4);
     fileOut7.close();
 
-    ReceiverActor.readMessage(0);
+    ReceiverActor.readMessage(0, "");
     std::cout << "\n\n-------------------------------------------------------------------------------------\n";
 
 
@@ -132,7 +132,7 @@ int main()
     fileOut8 << package8.dump(4);
     fileOut8.close();
 
-    ReceiverActor.readMessage(0);
+    ReceiverActor.readMessage(0, "");
     std::cout << "\n\n-------------------------------------------------------------------------------------\n";
 
 
@@ -163,7 +163,7 @@ int main()
     fileOut10 << package10.dump(4);
     fileOut10.close();
 
-    ReceiverActor.readMessage(0);
+    ReceiverActor.readMessage(0, "");
     std::cout << "\n\n-------------------------------------------------------------------------------------\n";
 
     return 0;

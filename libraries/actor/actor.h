@@ -29,7 +29,7 @@ public:
     std::string getName() const;
 
     void generateMessage(std::string message, std::string receiverName, PublicKeyPair receiverPublicKey);
-    void readMessage(uint64_t modifiedPrivateKey);
+    void readMessage(uint64_t modifiedPrivateKey, std::string modifiedFileName);
 
 };
 

@@ -91,10 +91,11 @@ void Actor::generateMessage(std::string message, std::string receiverName, Publi
     file.close();
 }
 
-void Actor::readMessage(uint64_t modifiedPrivateKey = 0)
+void Actor::readMessage(uint64_t modifiedPrivateKey = 0, std::string modifiedFileName = "")
 {
     // Open and parse the message file
-    std::ifstream file("jsons/message.json");
+    std::string fileName = (modifiedFileName != "") ? modifiedFileName : "jsons/message.json";
+    std::ifstream file(fileName);
     nlohmann::json package;
     file >> package;
     file.close();
